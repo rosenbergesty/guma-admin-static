@@ -1,0 +1,11 @@
+/* Stylesheet for Drivers Page */
+.actions{
+  margin-bottom: 30px;
+}
+
+@media (min-width: 576px){
+  .modal-dialog {
+      max-width: 500px;
+      margin: calc(50vh - 250px) auto;
+  }
+}
