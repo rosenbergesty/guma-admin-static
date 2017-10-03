@@ -1,5 +1,5 @@
 <?php
-    // Fetch stops by driverId
+    // Set up account
     header("Access-Control-Allow-Origin: *");
 
     // Connect to db

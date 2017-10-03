@@ -1,0 +1,373 @@
+<!Doctype>
+<html>
+  <head>
+    <title>Guma</title>
+    <link href="https://fonts.googleapis.com/css?family=Muli:300,400|Roboto" rel="stylesheet">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="https://cdn.datatables.net/1.10.16/css/dataTables.bootstrap4.min.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet" >
+    <link href="css/header.css" rel="stylesheet" >
+    <link href="css/driver.css" rel="stylesheet" >
+  </head>
+  <body>
+    <header class="nav-bar d-flex align-items-center sticky-top">
+      <div class="nav-opener">
+        <i class="material-icons">menu</i>
+      </div>
+      <div class="logo">
+        <h1>Guma</h1>
+      </div>
+      <div class="user ml-auto">
+        <div class="icon"></div>
+      </div>
+    </header>
+    <nav class="w-25 h-100 float-left">
+      <ul class="nav flex-column">
+        <li><a class="nav-link" href="dashboard.html"><span class="material-icons">dashboard</span>Dashboard</a></li>
+        <li><a class="nav-link active" href="drivers.html"><span class="material-icons">local_shipping</span>Drivers</a></li>
+        <li><a class="nav-link" href="dispatchers.html"><span class="material-icons">tap_and_play</span>Dispatchers</a></li>
+        <li><a class="nav-link" href="stops.html"><span class="material-icons">location_searching</span>Stops</a></li>
+        <li><a class="nav-link" href="reports.html"><span class="material-icons">insert_chart</span>Reports</a></li>
+        <li><a class="nav-link" href="profile.html"><span class="material-icons">perm_identity</span>Profile</a></li>
+      </ul>
+    </nav>
+    <div class="content w-75 p-3 float-right">
+      <h2 class="title">Drivers</h2>
+      <div class="main">
+        <div class="profile card row">
+          <div class="personal col-4">
+            <h2 class="name">Jane Doe</h2>
+            <p class="email">john@doe.com</p>
+          </div>
+          <div class="stats col-8 row">
+            <div class="counter col-4">
+              <p class="big num" id="pendingStops">-</p>
+              <p class="small desc">Pending Stops</p>
+            </div>
+            <div class="counter col-4">
+              <p class="big num" id="totalStops">-</p>
+              <p class="small desc">Total Stops</p>
+            </div>
+            <div class="counter col-4">
+              <p class="big num"><span id="latestStop1">--</span>:<span id="latestStop2">--</span></p>
+              <p class="small desc">Last Submitted</p>
+            </div>
+          </div>
+        </div>
+        
+        <div class="actions float-right">
+          <a href="#" class="exportDriver button">Export</a>
+          <a href="#" class="deleteDriver danger button">Delete</a>
+        </div>
+        <div class="clearfix"></div>
+
+        <div class="table-wrapper">
+          <table id="driversTable" class="display" cellspacing="0" width="100%">
+            <thead>
+              <tr class="header-row">
+                <th>ID</th>
+                <th>Address</th>
+                <th>Type</th>
+                <th>Size</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody>
+
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- Popups -->
+    <div class="modal" id="addDriverModal">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h3 class="modal-title">Add Driver</h3>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <form id="addDriverForm" novalidate>
+              <div class="form-group">
+                <label for="addDriverName">Name</label>
+                <input type="text" class="form-control" id="addDriverName" placeholder="Enter name" required>
+                <div class="invalid-feedback">
+                  Please enter a name
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="addDriverEmail">Email Address</label>
+                <input type="email" class="form-control" id="addDriverEmail" placeholder="Password" required>
+                <div class="invalid-feedback">
+                  Please enter a valid email address
+                </div>
+              </div>
+            </form>
+          </div>
+          <div class="modal-footer">
+            <a href="#" class="button addDriverSubmit">Add</a>
+            <a href="#" class="button" data-dismiss="modal">Close</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal" id="importModal">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h3 class="modal-title">Import Drivers</h3>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <form id="import-form" novalidate>
+              <div class="fallback">
+                <input type="file" name="upfile" id="upfile">
+              </div>
+              <span>Click or drag files to upload.</span>
+            </form>
+            <div class="import-success">
+              <h2>Successfully imported spreadsheet.</h2>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <a href="#" class="button importSubmit">Import</a>
+            <a href="#" class="button" data-dismiss="modal">Close</a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <footer>
+
+    </footer>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.16/js/dataTables.bootstrap4.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js" integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js" integrity="sha384-h0AbiXch4ZDo7tp9hKZ4TsHbi047NrKGLO3SEJAg45jXxnGIfYzk4Si90RDIqNm1" crossorigin="anonymous"></script>
+    <script src="js/countUp.min.js"></script>
+    <script>
+      $(document).ready(function(){
+          var query = window.location.search.substring(1);
+          var qs = parse_query_string(query);
+          id = qs.driver;
+          console.log(qs.driver);
+
+          function parse_query_string(query) {
+            var vars = query.split("&");
+            var query_string = {};
+            for (var i = 0; i < vars.length; i++) {
+              var pair = vars[i].split("=");
+              // If first entry with this name
+              if (typeof query_string[pair[0]] === "undefined") {
+                query_string[pair[0]] = decodeURIComponent(pair[1]);
+                // If second entry with this name
+              } else if (typeof query_string[pair[0]] === "string") {
+                var arr = [query_string[pair[0]], decodeURIComponent(pair[1])];
+                query_string[pair[0]] = arr;
+                // If third or later entry with this name
+              } else {
+                query_string[pair[0]].push(decodeURIComponent(pair[1]));
+              }
+            }
+            return query_string;
+          }
+
+          // Profile card
+          function fetchDriverDetails(id) {
+            $.ajax({
+              url: "http://estyrosenberg.com/guma/backend/fetch-driver-by-id.php",
+              method: "POST",
+              data: {id: id}
+            }).done(function(driver){
+              var data = JSON.parse(driver)[0].data;
+              $('.profile .name').text(data.name);
+              $('.profile .email').text(data.email);
+
+            }).fail(function(data){
+              console.log(data)
+            });
+          }
+          fetchDriverDetails(id);
+
+          // Table
+          var stopsTable = $('#driversTable').DataTable({
+            "dom": '<"toolbar"f>rt<"bottom"lp><"clear">',
+              "language": {
+                "paginate": {
+                  "next": ">",
+                  "previous": "<"
+                }
+              }, 
+              "columnDefs": [
+                {
+                  "targets": [0],
+                  "visible": false,
+                  "searchable": false
+                }
+              ]
+          });
+
+          var openSearch = $('<a href="#" class="open-search"><span class="material-icons">search</span></a>');
+          $("div.toolbar").append(openSearch);
+          openSearch.click(function(e){
+            e.preventDefault();
+            $("div.toolbar").toggleClass('open');
+            $("div.toolbar input.form-control").focus();
+          });
+
+          function fetchStops(id){
+            var pendingStops = 0;
+            var totalStops = 0;
+            var lastSubmitted = '';
+            var latestDate = new Date('9/1/2000');
+
+            $.ajax({
+              url: "http://estyrosenberg.com/guma/backend/fetch-stops-by-driverId.php",
+              method: "POST",
+              data: {driverID: id}
+            }).done(function(stops){
+              if(JSON.parse(stops) != '0 results'){
+                $.each(JSON.parse(stops), function( index, value ){
+                  var arr = [value.ID, value.address, value.type, value.size, value.status];
+                  stopsTable.row.add(arr).draw();
+
+                  if(value.status == 'pending'){
+                    pendingStops ++;
+                  } else {
+                    var date = new Date(value.dateFulfilled+' '+value.timeFulfilled);
+                    if(date > latestDate){
+                      latestDate = date;
+                    }
+                  }
+                  totalStops ++;
+                });
+              }
+
+              var pendingNum = new CountUp("pendingStops", 0, pendingStops);
+              if (!pendingNum.error) {
+                  pendingNum.start();
+              } else {
+                  console.error(pendingNum.error);
+              }
+
+              var totalNum = new CountUp("totalStops", 0, totalStops);
+              if (!totalNum.error) {
+                  totalNum.start();
+              } else {
+                  console.error(totalNum.error);
+              }
+
+              var hours = latestDate.getHours();
+              var minutes = latestDate.getMinutes();
+
+              var latestNum = new CountUp("latestStop1", 0, hours);
+              if (!latestNum.error) {
+                  latestNum.start();
+              } else {
+                  console.error(latestNum.error);
+              }
+              var latestNum2 = new CountUp("latestStop2", 0, minutes);
+              if (!latestNum2.error) {
+                  latestNum2.start();
+              } else {
+                  console.error(latestNum2.error);
+              }
+
+            }).fail(function(data){
+              console.log(data)
+            });
+          }
+          fetchStops(id);
+
+          // Click on driver
+          $('#driversTable tbody').on('click', 'tr', function () {
+              var data = driversTable.row( this ).data();
+              window.location.href = 'driver.html?driver='+data[0];
+          } );
+
+          // Add Driver
+          $('.addDriver').click(function(e){
+            e.preventDefault();
+            console.log('add');
+
+            $('#addDriverModal').modal();
+          });
+
+          $('.addDriverSubmit').click(function(e){
+            var valid = true;
+
+            var name = $('#addDriverName').val();
+            if(name.length < 1){
+              console.log('name');
+              valid = false;
+            }
+
+            var email = $('#addDriverEmail').val();
+            if(!validateEmail(email)){
+              console.log('email');
+              valid = false;
+            }
+
+            if(valid){
+              submitDriver(name, email);
+            }
+          });
+
+          function submitDriver(name, email){
+            $.ajax({
+              url: "http://estyrosenberg.com/guma/backend/add-driver.php",
+              method: "POST",
+              data: {name: name, email: email}
+            }).done(function(data){
+              console.log(JSON.parse(data));
+            });
+          }
+
+          function validateEmail(email) {
+            var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+            return re.test(email);
+          }
+
+          // Export Stops
+          $('.exportDriver').click(function(e){
+            e.preventDefault();
+            $.ajax({
+              url: "http://estyrosenberg.com/guma/backend/export-stops-by-driver.php",
+              method: "POST",
+              data: {driverID: id}
+            }).done(function(data){
+              console.log(data);
+              var file = new Blob([data], {type: "text/csv;charset=utf-8"});
+              var filename = 'guma-stops.csv'
+
+              if (window.navigator.msSaveOrOpenBlob) // IE10+
+                  window.navigator.msSaveOrOpenBlob(file, filename);
+              else { // Others
+                  var a = document.createElement("a"),
+                          url = URL.createObjectURL(file);
+                  a.href = url;
+                  a.download = filename;
+                  document.body.appendChild(a);
+                  a.click();
+                  setTimeout(function() {
+                      document.body.removeChild(a);
+                      window.URL.revokeObjectURL(url);  
+                  }, 0); 
+              }
+
+            });
+
+          })
+
+      });
+    </script>
+  </body>
+</html>

@@ -3,6 +3,80 @@
   margin-bottom: 30px;
 }
 
+tr{
+  cursor: pointer;
+}
+
+/* Dropzone */
+#import-form {
+  width: 100%;
+  background: #CECECE;
+  min-height: 200px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.dz-preview.dz-file-preview {
+  width: 80px;
+  height: 100px;
+  background: #555;
+  border-radius: 0 10px;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.dz-preview.dz-file-preview::after{
+  content: 'CSV';
+  color: #EFEFEF;
+  font-family: 'Roboto', sans-serif;
+  font-weight: 800;
+}
+.dz-preview > div{
+  display: none;
+}
+.dz-preview.dz-success .dz-success-mark{
+  display: block;
+  height: 45px;
+}
+.dz-preview .dz-success-mark svg{
+  display: block;
+  width: 30px;
+}
+.dz-preview.dz-error .dz-error-mark, .dz-preview.dz-error .dz-error-message{
+  display: block;
+}
+.dz-preview.dz-processing:not(.dz-complete) .dz-progress{
+  display: block;
+}
+.dz-preview .dz-progress{
+  height: 10px;
+  width: 100%;
+  position: absolute;
+  top: 0;
+}
+.dz-preview .dz-progress span{
+  display: block;
+  height: 100%;
+  width: 0;
+  background: #EFEFEF;
+}
+
+.dz-started span{
+  display: none;
+}
+
+p.name-list {
+    margin: 0;
+    font-size: .9em;
+    font-style: italic;
+    color: #777;
+}
+.import-success h3{
+  margin-top: 30px;
+}
+
 @media (min-width: 576px){
   .modal-dialog {
       max-width: 500px;
