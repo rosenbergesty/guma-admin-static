@@ -7,6 +7,19 @@ tr{
   cursor: pointer;
 }
 
+.column-toggle.button{
+  width: 145px;
+  font-size: .9em;
+  margin: 2px 0;
+  background: #aaaaaa;
+}
+.column-toggle.button.active{
+  background: #007BFF;
+}
+.column-toggles{
+  margin: 20px 0;
+}
+
 /* Dropzone */
 #import-form {
   width: 100%;

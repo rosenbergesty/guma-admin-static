@@ -240,6 +240,15 @@
 	    				data: {name: name, email: email}
 	    			}).done(function(data){
 	    				console.log(JSON.parse(data));
+	    				var resp = JSON.parse(data);
+	    				if(resp[0].code == '200'){
+	    					$('#addDriverModal').modal('hide');
+	    					$('#addDriverName').val('');
+	    					$('#addDriverEmail').val('');
+
+	    					driversTable.clear();
+	    					fetchDrivers();
+	    				}
 					  });
 					}
 

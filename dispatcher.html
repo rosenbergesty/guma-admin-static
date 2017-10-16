@@ -25,21 +25,21 @@
     <nav class="w-25 h-100 float-left">
       <ul class="nav flex-column">
         <li><a class="nav-link" href="dashboard.html"><span class="material-icons">dashboard</span>Dashboard</a></li>
-        <li><a class="nav-link active" href="drivers.html"><span class="material-icons">local_shipping</span>Drivers</a></li>
-        <li><a class="nav-link" href="dispatchers.html"><span class="material-icons">tap_and_play</span>Dispatchers</a></li>
+        <li><a class="nav-link" href="drivers.html"><span class="material-icons">local_shipping</span>Drivers</a></li>
+        <li><a class="nav-link active" href="dispatchers.html"><span class="material-icons">tap_and_play</span>Dispatchers</a></li>
         <li><a class="nav-link" href="stops.html"><span class="material-icons">location_searching</span>Stops</a></li>
         <li><a class="nav-link" href="reports.html"><span class="material-icons">insert_chart</span>Reports</a></li>
         <li><a class="nav-link" href="profile.html"><span class="material-icons">perm_identity</span>Profile</a></li>
       </ul>
     </nav>
     <div class="content w-75 p-3 float-right">
-      <h2 class="title">Driver Details</h2>
+      <h2 class="title">Dispacher Details</h2>
       <div class="main">
         <div class="profile card row">
           <div class="personal col-4">
             <h2 class="name">Jane Doe</h2>
             <p class="email">john@doe.com</p>
-            <a href="#" class="editDriver">edit</a>
+            <a href="#" class="editDispatcher">edit</a>
           </div>
           <div class="stats col-8 row">
             <div class="counter col-4">
@@ -52,19 +52,19 @@
             </div>
             <div class="counter col-4">
               <p class="big num"><span id="latestStop1">--</span>:<span id="latestStop2">--</span></p>
-              <p class="small desc">Last Submitted</p>
+              <p class="small desc">Last Dispatched</p>
             </div>
           </div>
         </div>
         
         <div class="actions float-right">
-          <a href="#" class="exportDriver button">Export</a>
-          <a href="#" class="deleteDriver danger button">Delete</a>
+          <a href="#" class="exportDispatcher button">Export</a>
+          <a href="#" class="deleteDispatcher danger button">Delete</a>
         </div>
         <div class="clearfix"></div>
 
         <div class="table-wrapper">
-          <table id="driversTable" class="display" cellspacing="0" width="100%">
+          <table id="stopsTable" class="display" cellspacing="0" width="100%">
             <thead>
               <tr class="header-row">
                 <th>ID</th>
@@ -83,27 +83,27 @@
     </div>
 
     <!-- Popups -->
-    <div class="modal" id="editDriverModal">
+    <div class="modal" id="editDispatcherModal">
       <div class="modal-dialog" role="document">
         <div class="modal-content">
           <div class="modal-header">
-            <h3 class="modal-title">Edit Driver</h3>
+            <h3 class="modal-title">Edit Dispatcher</h3>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
               <span aria-hidden="true">&times;</span>
             </button>
           </div>
           <div class="modal-body">
-            <form id="editDriverForm" novalidate>
+            <form id="editDispatcherForm" novalidate>
               <div class="form-group">
-                <label for="editDriverName">Name</label>
-                <input type="text" class="form-control" id="editDriverName" placeholder="Enter name" required>
+                <label for="editDispatcherName">Name</label>
+                <input type="text" class="form-control" id="editDispatcherName" placeholder="Enter name" required>
                 <div class="invalid-feedback">
                   Please enter a name
                 </div>
               </div>
               <div class="form-group">
-                <label for="editDriverEmail">Email Address</label>
-                <input type="email" class="form-control" id="editDriverEmail" placeholder="Password" required>
+                <label for="editDispatcherEmail">Email Address</label>
+                <input type="email" class="form-control" id="editDispatcherEmail" placeholder="Password" required>
                 <div class="invalid-feedback">
                   Please enter a valid email address
                 </div>
@@ -111,18 +111,18 @@
             </form>
           </div>
           <div class="modal-footer">
-            <a href="#" class="button editDriverSubmit">Save</a>
+            <a href="#" class="button editDispatcherSubmit">Save</a>
             <a href="#" class="button" data-dismiss="modal">Close</a>
           </div>
         </div>
       </div>
     </div>
 
-    <div class="modal" id="deleteDriverModal">
+    <div class="modal" id="deleteDispatcherModal">
       <div class="modal-dialog" role="document">
         <div class="modal-content">
           <div class="modal-header">
-            <h3 class="modal-title">Delete Driver</h3>
+            <h3 class="modal-title">Delete Dispatcher</h3>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
               <span aria-hidden="true">&times;</span>
             </button>
@@ -131,7 +131,7 @@
             <p>Are you sure you want to delete this user?</p>
           </div>
           <div class="modal-footer">
-            <a href="#" class="button deleteDriverSubmit danger">Delete</a>
+            <a href="#" class="button deleteDispatcherSubmit danger">Delete</a>
             <a href="#" class="button" data-dismiss="modal">Close</a>
           </div>
         </div>
@@ -151,8 +151,8 @@
       $(document).ready(function(){
           var query = window.location.search.substring(1);
           var qs = parse_query_string(query);
-          id = qs.driver;
-          console.log(qs.driver);
+          id = qs.dispatcher;
+          console.log(qs.dispatcher);
 
           function parse_query_string(query) {
             var vars = query.split("&");
@@ -175,27 +175,27 @@
           }
 
           // Profile card
-          function fetchDriverDetails(id) {
+          function fetchDispatcherDetails(id) {
             $.ajax({
-              url: "http://estyrosenberg.com/guma/backend/fetch-driver-by-id.php",
+              url: "http://estyrosenberg.com/guma/backend/fetch-dispatcher-by-id.php",
               method: "POST",
               data: {id: id}
-            }).done(function(driver){
-              var data = JSON.parse(driver)[0].data;
+            }).done(function(dispatcher){
+              var data = JSON.parse(dispatcher)[0].data;
               $('.profile .name').text(data.name);
               $('.profile .email').text(data.email);
 
-              $('#editDriverName').val(data.name);
-              $('#editDriverEmail').val(data.email);
+              $('#editDispatcherName').val(data.name);
+              $('#editDispatcherEmail').val(data.email);
 
             }).fail(function(data){
               console.log(data)
             });
           }
-          fetchDriverDetails(id);
+          fetchDispatcherDetails(id);
 
           // Table
-          var stopsTable = $('#driversTable').DataTable({
+          var stopsTable = $('#stopsTable').DataTable({
             "dom": '<"toolbar"f>rt<"bottom"lp><"clear">',
               "language": {
                 "paginate": {
@@ -227,9 +227,9 @@
             var latestDate = new Date('9/1/2000');
 
             $.ajax({
-              url: "http://estyrosenberg.com/guma/backend/fetch-stops-by-driverId.php",
+              url: "http://estyrosenberg.com/guma/backend/fetch-stops-by-dispatcherId.php",
               method: "POST",
-              data: {driverID: id}
+              data: {dispatcherID: id}
             }).done(function(stops){
               if(JSON.parse(stops) != '0 results'){
                 $.each(JSON.parse(stops), function( index, value ){
@@ -285,7 +285,7 @@
           fetchStops(id);
 
           // Click on driver
-          $('#driversTable tbody').on('click', 'tr', function () {
+          $('#stopsTable tbody').on('click', 'tr', function () {
               var data = stopsTable.row( this ).data();
               window.location.href = 'stop.html?stops='+data[0];
           } );
@@ -295,43 +295,43 @@
             return re.test(email);
           }
 
-          // Edit Driver
-          $('.editDriver').click(function(e){
+          // Edit Dispatcher
+          $('.editDispatcher').click(function(e){
             e.preventDefault();
             console.log('add');
 
-            $('#editDriverModal').modal();
+            $('#editDispatcherModal').modal();
           });
 
-          $('.editDriverSubmit').click(function(e){
+          $('.editDispatcherSubmit').click(function(e){
             var valid = true;
 
-            var name = $('#editDriverName').val();
+            var name = $('#editDispatcherName').val();
             if(name.length < 1){
               console.log('name');
               valid = false;
             }
 
-            var email = $('#editDriverEmail').val();
+            var email = $('#editDispatcherEmail').val();
             if(!validateEmail(email)){
               console.log('email');
               valid = false;
             }
 
             if(valid){
-              submitDriver(name, email);
+              submitDispatcher(name, email);
             }
           });
 
-          function submitDriver(name, email){
+          function submitDispatcher(name, email){
             $.ajax({
-              url: "http://estyrosenberg.com/guma/backend/edit-driver.php",
+              url: "http://estyrosenberg.com/guma/backend/edit-dispatcher.php",
               method: "POST",
               data: {id: id, name: name, email: email}
             }).done(function(data){
               console.log(JSON.parse(data));
-              $('#editDriverModal').modal('hide');
-              fetchDriverDetails(id);
+              $('#editDispatcherModal').modal('hide');
+              fetchDisptacherDetails(id);
             });
           }
 
@@ -341,19 +341,19 @@
           }
 
 
-          // Edit Driver
-          $('.deleteDriver').click(function(e){
+          // Delete Dispatcher
+          $('.deleteDispatcher').click(function(e){
             e.preventDefault();
-            $('#deleteDriverModal').modal();
+            $('#deleteDispatcherModal').modal();
           });
 
-          $('.deleteDriverSubmit').click(function(e){
-            deleteDriver();
+          $('.deleteDispatcherSubmit').click(function(e){
+            deleteDispatcher();
           });
 
-          function deleteDriver(){
+          function deleteDispatcher(){
             $.ajax({
-              url: "http://estyrosenberg.com/guma/backend/delete-driver.php",
+              url: "http://estyrosenberg.com/guma/backend/delete-dispatcher.php",
               method: "POST",
               data: {id: id}
             }).done(function(data){
@@ -361,7 +361,7 @@
               var resp = JSON.parse(data);
               if(resp[0].code == 200){
                 console.log('success!!');
-                window.location.href = 'drivers.html';
+                window.location.href = 'dispatchers.html';
               } else {
                 console.log('uh oh');
               }
@@ -369,12 +369,12 @@
           }
 
           // Export Stops
-          $('.exportDriver').click(function(e){
+          $('.exportDispatcher').click(function(e){
             e.preventDefault();
             $.ajax({
-              url: "http://estyrosenberg.com/guma/backend/export-stops-by-driver.php",
+              url: "http://estyrosenberg.com/guma/backend/export-stops-by-dispatcher.php",
               method: "POST",
-              data: {driverID: id}
+              data: {dispatcherID: id}
             }).done(function(data){
               console.log(data);
               var file = new Blob([data], {type: "text/csv;charset=utf-8"});

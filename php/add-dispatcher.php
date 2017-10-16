@@ -1,9 +1,9 @@
 <?php
+  // Add dispatcher
+  header("Access-Control-Allow-Origin: *");
+
   use PHPMailer\PHPMailer\PHPMailer;
   use PHPMailer\PHPMailer\Exception;
-
-  // Add driver
-  header("Access-Control-Allow-Origin: *");
   
   // Connect to db
   require_once('connect.php');
@@ -19,7 +19,7 @@
   $response = [];
 
   // Insert dispatcher
-  $sql = "INSERT INTO drivers (name, email) VALUES ('$name', '$email')";
+  $sql = "INSERT INTO dispatchers (name, email) VALUES ('$name', '$email')";
   if($conn->query($sql) === TRUE){
     array_push($response, ['code'=>'200', 'response'=>'Successfully added']);
   }  else {
@@ -27,8 +27,6 @@
   }
 
   // Send email to user
-
-
   $mail = new PHPMailer(true);
   try {
       //Server settings

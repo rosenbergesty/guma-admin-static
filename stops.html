@@ -1,0 +1,303 @@
+<!Doctype>
+<html>
+  <head>
+    <title>Guma</title>
+    <link href="https://fonts.googleapis.com/css?family=Muli:300,400|Roboto" rel="stylesheet">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="https://cdn.datatables.net/1.10.16/css/dataTables.bootstrap4.min.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet" >
+    <link href="css/header.css" rel="stylesheet" >
+    <link href="css/drivers.css" rel="stylesheet" >
+
+  </head>
+  <body>
+    <header class="nav-bar d-flex align-items-center sticky-top">
+      <div class="nav-opener">
+        <i class="material-icons">menu</i>
+      </div>
+      <div class="logo">
+        <h1>Guma</h1>
+      </div>
+      <div class="user ml-auto">
+        <div class="icon"></div>
+      </div>
+    </header>
+    <nav class="w-25 h-100 float-left">
+      <ul class="nav flex-column">
+        <li><a class="nav-link" href="dashboard.html"><span class="material-icons">dashboard</span>Dashboard</a></li>
+        <li><a class="nav-link" href="drivers.html"><span class="material-icons">local_shipping</span>Drivers</a></li>
+        <li><a class="nav-link" href="dispatchers.html"><span class="material-icons">tap_and_play</span>Dispatchers</a></li>
+        <li><a class="nav-link active" href="stops.html"><span class="material-icons">location_searching</span>Stops</a></li>
+        <li><a class="nav-link" href="reports.html"><span class="material-icons">insert_chart</span>Reports</a></li>
+        <li><a class="nav-link" href="profile.html"><span class="material-icons">perm_identity</span>Profile</a></li>
+      </ul>
+    </nav>
+    <div class="content w-75 p-3 float-right">
+      <h2 class="title">Stops</h2>
+      <div class="main">
+        <div class="actions">
+          <a href="#" class="import-stops button">Import</a>
+          <a href="#" class="export-stops button">Export All</a>
+        </div>
+
+        <div class="column-toggles">
+          <h6>Display Columns</h6>
+          <a href="#" class="column-toggle button active" data-column="1">Address</a>
+          <a href="#" class="column-toggle button active" data-column="2">Status</a>
+          <a href="#" class="column-toggle button" data-column="3">Driver</a>
+          <a href="#" class="column-toggle button" data-column="4">Dispatcher</a>
+          <a href="#" class="column-toggle button active" data-column="5">Type</a>
+          <a href="#" class="column-toggle button" data-column="6">Size</a>
+          <a href="#" class="column-toggle button" data-column="7">Container Number</a>
+          <a href="#" class="column-toggle button" data-column="8">Container Number 2</a>
+          <a href="#" class="column-toggle button" data-column="9">Borough</a>
+          <a href="#" class="column-toggle button" data-column="10">Comments</a>
+          <a href="#" class="column-toggle button active" data-column="11">Date Created</a>
+          <a href="#" class="column-toggle button active" data-column="12">Time Created</a>
+          <a href="#" class="column-toggle button" data-column="13">Date Fulfilled</a>
+          <a href="#" class="column-toggle button" data-column="14">Time Fulfilled</a>
+        </div>
+
+        <div class="table-wrapper">
+          <table id="stopsTable" class="display" cellspacing="0" width="100%">
+            <thead>
+              <tr class="header-row">
+                <th>ID</th>
+                <th>Address</th>
+                <th>Status</th>
+                <th>Driver</th>
+                <th>Dispatcher</th>
+                <th>Type</th>
+                <th>Size</th>
+                <th>Container Number</th>
+                <th>Container Number 2</th>
+                <th>Borough</th>
+                <th>Comments</th>
+                <th>Date Created</th>
+                <th>Time Created</th>
+                <th>Date Fulfilled</th>
+                <th>Time Fulfilled</th>
+              </tr>
+            </thead>
+            <tbody>
+
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- Popups -->
+    <div class="modal" id="importModal">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h3 class="modal-title">Import Dispatchers</h3>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <form id="import-form" novalidate>
+              <div class="fallback">
+                <input type="file" name="upfile" id="upfile">
+              </div>
+              <span>Click or drag files to upload.</span>
+            </form>
+            <div class="import-success">
+              <h2>Successfully imported spreadsheet.</h2>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <a href="#" class="button importSubmit">Import</a>
+            <a href="#" class="button" data-dismiss="modal">Close</a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <footer>
+
+    </footer>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.16/js/dataTables.bootstrap4.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js" integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js" integrity="sha384-h0AbiXch4ZDo7tp9hKZ4TsHbi047NrKGLO3SEJAg45jXxnGIfYzk4Si90RDIqNm1" crossorigin="anonymous"></script>
+    <script src="js/dropzone.js"></script>
+    <script>
+      $(document).ready(function(){
+
+          // Table
+          var stopsTable = $('#stopsTable').DataTable({
+            "dom": '<"toolbar"f>rt<"bottom"lp><"clear">',
+              "language": {
+                "paginate": {
+                  "next": ">",
+                  "previous": "<"
+                }
+              }, 
+              "columnDefs": [
+                {
+                  "targets": [0,3,4,6,7,8,9,10,13,14],
+                  "visible": false,
+                  "searchable": false
+                }
+              ]
+          });
+
+          var openSearch = $('<a href="#" class="open-search"><span class="material-icons">search</span></a>');
+          $("div.toolbar").append(openSearch);
+          openSearch.click(function(e){
+            e.preventDefault();
+            $("div.toolbar").toggleClass('open');
+            $("div.toolbar input.form-control").focus();
+          });
+
+          function fetchStops(){
+            $.ajax({
+              url: "http://estyrosenberg.com/guma/backend/fetch-all-stops.php"
+            }).done(function(data){
+              console.log(data);
+              $.each(JSON.parse(data), function( index, value ){
+                console.log(value);
+
+                // var arr = [value.ID, value.address, value.status, value.driverId, value.dispatcherId, value.type, value.size, value.containerNum, value.containerNum2, value.borough, value.comments, value.dateCreated, value.timeCreated, value.dateFulfilled, value.timeFulfilled];
+                // stopsTable.row.add(arr).draw();
+
+              var arr = [value.ID, value.address, value.status];
+
+              // Driver
+              $.ajax({
+                url: "http://estyrosenberg.com/guma/backend/fetch-driver-by-id.php",
+                method: "POST",
+                data: {id: value.driverId}
+              }).done(function(driver){
+                var driver = JSON.parse(driver);
+                arr.push(driver[0].data.name);
+
+                // Dispatcher
+                $.ajax({
+                  url: "http://estyrosenberg.com/guma/backend/fetch-dispatcher-by-id.php",
+                  method: "POST",
+                  data: {id: value.dispatcherId}
+                }).done(function(dispatcher){
+                  var dispatcher = JSON.parse(dispatcher);
+                  arr.push(dispatcher[0].data.name);
+                  var type = '';
+                  switch(value.type){
+                    case 'DD':
+                      type = "Drop Off";
+                      break;
+                    case 'PU':
+                      type = "Pick Up";
+                      break;
+                    case 'SW':
+                      type = "Switch";
+                      break;
+                  }
+                  arr.push(type, value.size, value.containerNum, value.containerNum2, value.borough, value.comments, value.dateCreated, value.timeCreated, value.dateFulfilled, value.timeFulfilled);
+
+                  stopsTable.row.add(arr).draw();
+                });
+
+              });
+
+
+              });
+
+            }).fail(function(data){
+              console.log(data);
+            })
+          }
+          fetchStops();
+
+          // Click on Stop
+          $('#stopsTable tbody').on('click', 'tr', function () {
+              var data = stopsTable.row( this ).data();
+              window.location.href = 'stop.html?stop='+data[0];
+          } );
+
+          // Toggle Column
+          $('a.column-toggle').on( 'click', function (e) {
+            e.preventDefault();
+            var column = stopsTable.column( $(this).attr('data-column') );
+            column.visible( ! column.visible() );
+            $(this).toggleClass('active');
+          } );
+
+
+          // Import
+          $('.import-stops').click(function(e){
+            e.preventDefault();
+
+            $('#import-form').show();
+            $('.import-success').hide();
+            $('.importSubmit').show();
+            $('#importModal').modal();
+          });
+
+          var myDropzone = new Dropzone('#import-form', {
+            url: 'http://estyrosenberg.com/guma/backend/import-stops.php',
+            paramName: 'upfile',
+            autoProcessQueue: false
+          });
+
+          $('.importSubmit').click(function(e){
+            e.preventDefault();
+            myDropzone.processQueue();
+          })
+          myDropzone.on("success", function(file, data){
+            var response = JSON.parse(data);
+            myDropzone.removeAllFiles();
+            $('#import-form').hide();
+            $('.importSubmit').hide();
+
+            console.log(data);
+
+            if(response.code == 200){
+              $('.import-success').show();
+              if(typeof response.data.failed != 'undefined'){
+                $('.import-success').append('<h3>The following dispatchers failed to upload.</h3>');
+                $.each(response.data.failed[1], function(index, value){
+                  $('.import-success').append('<p class="name-list">'+ value[0] + ' - ' + value[1] +'</p>');
+                });
+              }
+            }
+          });
+          myDropzone.on("error", function(file, errorMessage){
+            console.log(errorMessage);
+          });
+
+          // Export Stops
+          $('.export-stops').click(function(e){
+            e.preventDefault();
+
+            $.ajax({
+              url: "http://estyrosenberg.com/guma/backend/export-stops.php"
+            }).done(function(data){
+              console.log(data);
+              var file = new Blob([data], {type: "text/csv;charset=utf-8"});
+              var filename = 'guma-stops.csv'
+
+              if (window.navigator.msSaveOrOpenBlob) // IE10+
+                  window.navigator.msSaveOrOpenBlob(file, filename);
+              else { // Others
+                  var a = document.createElement("a"),
+                          url = URL.createObjectURL(file);
+                  a.href = url;
+                  a.download = filename;
+                  document.body.appendChild(a);
+                  a.click();
+                  setTimeout(function() {
+                      document.body.removeChild(a);
+                      window.URL.revokeObjectURL(url);  
+                  }, 0); 
+              }
+
+            });
+          })
+      });
+    </script>
+  </body>
+</html>
