@@ -62,10 +62,10 @@
           })
           .done(function(data){
           	var response = JSON.parse(data);
+          	var user = response.data[0];
           	if(response.code == 200){
-          		document.cookie="user=john doe";
-          		console.log(document.cookie);
-          		// window.location.href = "dashboard.html";
+          		document.cookie="user="+JSON.stringify(user);
+          		window.location.href = "dashboard.html";
           	} else if(response.code == 300){
           		// Wrong password
           	} else {

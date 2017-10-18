@@ -9,6 +9,7 @@
 		<link href="css/header.css" rel="stylesheet" >
 	</head>
 	<body>
+		<div class="loader-screen"></div>
 		<header class="nav-bar d-flex align-items-center sticky-top">
 			<div class="nav-opener">
 				<i class="material-icons">menu</i>
@@ -19,15 +20,19 @@
 			<div class="user ml-auto">
 				<div class="icon"></div>
 			</div>
+			<div class="logout-popup">
+				<ul>
+					<li><a href="#" class="nav-link" id="logout"><span class="material-icons">power_settings_new</span>Logout</a>
+				</ul>
+			</div>
 		</header>
 		<nav class="w-25 h-100 float-left">
 			<ul class="nav flex-column">
-				<li><a class="nav-link active" href="dashboard.html"><span class="material-icons">dashboard</span>Dashboard</a></li>
-				<li><a class="nav-link" href="drivers.html"><span class="material-icons">local_shipping</span>Drivers</a></li>
-				<li><a class="nav-link" href="dispatchers.html"><span class="material-icons">tap_and_play</span>Dispatchers</a></li>
-        <li><a class="nav-link" href="stops.html"><span class="material-icons">location_searching</span>Stops</a></li>
-				<li><a class="nav-link" href="reports.html"><span class="material-icons">insert_chart</span>Reports</a></li>
-				<li><a class="nav-link" href="profile.html"><span class="material-icons">perm_identity</span>Profile</a></li>
+				<li><a class="nav-link active" href="dashboard.html"><span class="material-icons">dashboard</span><span class="text">Dashboard</span></a></li>
+				<li><a class="nav-link" href="drivers.html"><span class="material-icons">local_shipping</span><span class="text">Drivers</span></a></li>
+				<li><a class="nav-link" href="dispatchers.html"><span class="material-icons">tap_and_play</span><span class="text">Dispatchers</span></a></li>
+        <li><a class="nav-link" href="stops.html"><span class="material-icons">location_searching</span><span class="text">Stops</span></a></li>
+				<li><a class="nav-link" href="reports.html"><span class="material-icons">insert_chart</span><span class="text">Reports</span></a></li>
 			</ul>
 		</nav>
 		<div class="content w-75 p-5 float-right">
