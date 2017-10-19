@@ -7,14 +7,15 @@ $(document).ready(function(e){
     var begin = cookie.indexOf("; " + prefix);
     if(begin == -1) {
       begin = cookie.indexOf(prefix);
-      if(begin != 0) return null;
-    } else {
-      begin += 2;
-      var end = document.cookie.indexOf(";", begin);
+      if(begin != 0) return null; 
+      else begin += 2;
+    var end = cookie.indexOf(";", begin);
       if(end == -1) {
         end = cookie.length;
       }
     }
+
+    console.log(begin);
     return decodeURI(cookie.substring(begin + prefix.length, end));
   }
   function delCookie(name) {

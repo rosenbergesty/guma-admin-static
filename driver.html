@@ -187,6 +187,7 @@
               method: "POST",
               data: {id: id}
             }).done(function(driver){
+              console.log(driver);
               var data = JSON.parse(driver)[0].data;
               $('.profile .name').text(data.name);
               $('.profile .email').text(data.email);
