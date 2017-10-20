@@ -1,12 +1,20 @@
 <?php
   // Fetch stops by driverId
   header("Access-Control-Allow-Origin: *");
+  header("Access-Control-Allow-Headers: Content-Type");
 
   // Connect to db
   require_once('connect.php');
 
   // Get data
-  $driverID = $_POST['driverID'];
+  $driverID = '';
+  if( isset($_POST['driverID']) ){
+    $driverID = $_POST['driverID']; 
+  } else {
+    $requestBody = file_get_contents('php://input');
+    $parsed = json_decode($requestBody, true);
+    $driverID = $parsed['driverID'];
+  }
   
   $response = [];
 
