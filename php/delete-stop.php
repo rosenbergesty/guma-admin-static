@@ -6,7 +6,15 @@
   require_once('connect.php');
 
   // Get data
-  $stopID = $_POST['stopId'];
+  $stopID = '';
+  if( isset($_POST['stopId']) ){
+    $stopID = $_POST['stopId']; 
+  } else {
+    $requestBody = file_get_contents('php://input');
+    $parsed = json_decode($requestBody, true);
+    $stopID = $parsed['stopId'];
+  }
+
   $response = [];
   
   // Insert dispatcher

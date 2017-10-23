@@ -158,7 +158,6 @@
           var query = window.location.search.substring(1);
           var qs = parse_query_string(query);
           id = qs.dispatcher;
-          console.log(qs.dispatcher);
 
           function parse_query_string(query) {
             var vars = query.split("&");
@@ -335,7 +334,6 @@
               method: "POST",
               data: {id: id, name: name, email: email}
             }).done(function(data){
-              console.log(JSON.parse(data));
               $('#editDispatcherModal').modal('hide');
               fetchDisptacherDetails(id);
             });
@@ -363,10 +361,8 @@
               method: "POST",
               data: {id: id}
             }).done(function(data){
-              console.log(JSON.parse(data));
               var resp = JSON.parse(data);
               if(resp[0].code == 200){
-                console.log('success!!');
                 window.location.href = 'dispatchers.html';
               } else {
                 console.log('uh oh');
@@ -382,7 +378,6 @@
               method: "POST",
               data: {dispatcherID: id}
             }).done(function(data){
-              console.log(data);
               var file = new Blob([data], {type: "text/csv;charset=utf-8"});
               var filename = 'guma-stops.csv'
 

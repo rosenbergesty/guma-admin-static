@@ -1,23 +1,22 @@
 /* Global js */
 $(document).ready(function(e){
 
-  function getCookie(name){
-    var cookie = document.cookie;
-    var prefix = name + "=";
-    var begin = cookie.indexOf("; " + prefix);
-    if(begin == -1) {
-      begin = cookie.indexOf(prefix);
-      if(begin != 0) return null; 
-      else begin += 2;
-    var end = cookie.indexOf(";", begin);
-      if(end == -1) {
-        end = cookie.length;
+  function getCookie(cname) {
+    var name = cname + "=";
+    var decodedCookie = decodeURIComponent(document.cookie);
+    var ca = decodedCookie.split(';');
+    for(var i = 0; i <ca.length; i++) {
+      var c = ca[i];
+      while (c.charAt(0) == ' ') {
+        c = c.substring(1);
+      }
+      if (c.indexOf(name) == 0) {
+        return c.substring(name.length, c.length);
       }
     }
-
-    console.log(begin);
-    return decodeURI(cookie.substring(begin + prefix.length, end));
+    return "";
   }
+
   function delCookie(name) {
     document.cookie = name + '=;expires=Thu, 01 Jan 1970 00:00:01 GMT;';
   };

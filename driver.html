@@ -158,7 +158,6 @@
           var query = window.location.search.substring(1);
           var qs = parse_query_string(query);
           id = qs.driver;
-          console.log(qs.driver);
 
           function parse_query_string(query) {
             var vars = query.split("&");
@@ -187,7 +186,6 @@
               method: "POST",
               data: {id: id}
             }).done(function(driver){
-              console.log(driver);
               var data = JSON.parse(driver)[0].data;
               $('.profile .name').text(data.name);
               $('.profile .email').text(data.email);
@@ -305,7 +303,6 @@
           // Edit Driver
           $('.editDriver').click(function(e){
             e.preventDefault();
-            console.log('add');
 
             $('#editDriverModal').modal();
           });
@@ -336,7 +333,6 @@
               method: "POST",
               data: {id: id, name: name, email: email}
             }).done(function(data){
-              console.log(JSON.parse(data));
               $('#editDriverModal').modal('hide');
               fetchDriverDetails(id);
             });
@@ -364,10 +360,8 @@
               method: "POST",
               data: {id: id}
             }).done(function(data){
-              console.log(JSON.parse(data));
               var resp = JSON.parse(data);
               if(resp[0].code == 200){
-                console.log('success!!');
                 window.location.href = 'drivers.html';
               } else {
                 console.log('uh oh');
@@ -383,7 +377,6 @@
               method: "POST",
               data: {driverID: id}
             }).done(function(data){
-              console.log(data);
               var file = new Blob([data], {type: "text/csv;charset=utf-8"});
               var filename = 'guma-stops.csv'
 

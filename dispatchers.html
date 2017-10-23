@@ -170,7 +170,6 @@
             $.ajax({
               url: "http://estyrosenberg.com/guma/backend/fetch-all-dispatchers.php"
             }).done(function(data){
-              console.log(data);
               $.each(JSON.parse(data), function( index, value ){
 
                 $.ajax({
@@ -178,7 +177,6 @@
                   method: "POST",
                   data: {dispatcherID: value.ID}
                 }).done(function(stops){
-                  console.log(stops);
                   var count = 0;
                   if(JSON.parse(stops) != '0 results'){
                     $.each(JSON.parse(stops), function( index, value ){
@@ -212,7 +210,6 @@
           // Add Dispatcher
           $('.addDispatcher').click(function(e){
             e.preventDefault();
-            console.log('add');
 
             $('#addDispatcherModal').modal();
           });
@@ -243,7 +240,6 @@
               method: "POST",
               data: {name: name, email: email}
             }).done(function(data){
-              console.log(JSON.parse(data));
               var resp = JSON.parse(data);
               if(resp[0].code == '200'){
                 $('#addDispatcherModal').modal('hide');
@@ -321,7 +317,6 @@
             $.ajax({
               url: "http://estyrosenberg.com/guma/backend/export-dispatchers.php"
             }).done(function(data){
-              console.log(data);
               var file = new Blob([data], {type: "text/csv;charset=utf-8"});
               var filename = 'guma-dispatchers.csv'
 
