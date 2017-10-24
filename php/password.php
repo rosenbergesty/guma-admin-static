@@ -9,17 +9,16 @@
 
     if($_POST) {
         $id      = $_POST['id'];
-        $user_password  = mysql_real_escape_string($_POST['password']);
+        $user_password  = strip_tags($_POST['password']);
         
         //password_hash see : http://www.php.net/manual/en/function.password-hash.php
         $password   = password_hash( $user_password, PASSWORD_BCRYPT, array('cost' => 11));
-        
-        $sql = "SELECT * FROM dispatchers WHERE ID=$id";
+        $sql = "SELECT * FROM drivers WHERE email='$id'";
         $result = $conn->query($sql);
         if($result->num_rows > 0){
             while($row = $result->fetch_assoc()){
                 if(strlen($row['password']) < 8){
-                    $sql = "UPDATE dispatchers SET password='$password' WHERE ID=$id";
+                    $sql = "UPDATE drivers SET password='$password' WHERE email='$id'";
                     if($conn->query($sql) === TRUE){
                         $response = ['status'=>'200', 'message'=>'Successfully set up account'];
                     } else {
