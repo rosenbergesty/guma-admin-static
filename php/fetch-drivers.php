@@ -19,7 +19,7 @@
   }
 
   // Insert dispatcher
-  $sql = "SELECT * FROM drivers";
+  $sql = "SELECT * FROM (SELECT * FROM drivers ORDER BY id DESC LIMIT ".$count.") sub ORDER BY id ASC";
   $result = $conn->query($sql);
   if($result->num_rows > 0){
     while($row = $result->fetch_assoc()){
