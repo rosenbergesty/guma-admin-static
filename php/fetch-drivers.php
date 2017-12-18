@@ -24,6 +24,48 @@
   if($result->num_rows > 0){
     while($row = $result->fetch_assoc()){
       $array = array("ID"=>$row["ID"], "name"=>$row["name"], "email"=>$row["email"], "password"=>$row["password"] );
+
+        $driver = $row["ID"];
+
+        // pending
+        $pending_sql = "SELECT COUNT(*) FROM stops WHERE driverId='$driver' AND status='pending'";
+        $pending_result = $conn->query($pending_sql);
+        if($pending_result->num_rows > 0){
+          while($pending_row = $pending_result->fetch_assoc()){
+            $pending = $pending_row['COUNT(*)'];
+            $array['pending'] = $pending;
+          }
+        }
+
+        // total
+        $total_sql = "SELECT COUNT(*) FROM stops WHERE driverId='$driver'";
+        $total_result = $conn->query($total_sql);
+        if($total_result->num_rows > 0){
+          while($total_row = $total_result->fetch_assoc()){
+            $total = $total_row['COUNT(*)'];
+            $array['total'] = $total;
+          }
+        }
+
+        // latest
+        $date_sql = "SELECT MAX(STR_TO_DATE(dateFulfilled, '%d/%m/%Y')) AS latestDate FROM stops WHERE driverId='$driver'";
+
+        $date_result = $conn->query($date_sql);
+        if($date_result->num_rows > 0){
+          while($date_row = $date_result->fetch_assoc()){
+            $date = date('d/m/Y', strtotime($date_row['latestDate']));
+
+            $time_sql = "SELECT MAX(STR_TO_DATE(timeFulfilled, '%H:%i:%s')) AS latestTime FROM stops WHERE dateFulfilled='$date'";
+            $time_result = $conn->query($time_sql);
+            if($time_result->num_rows > 0){
+              while($time_row = $time_result->fetch_assoc()){
+                $latest = $time_row['latestTime'];
+                $array['latest'] = $latest;
+              }
+            }
+          }
+        }
+
       array_push($response, $array);
     }
   } else {

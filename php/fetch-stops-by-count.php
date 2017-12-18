@@ -43,7 +43,9 @@
   $response = [];
 
   // Insert dispatcher
-  $sql = "SELECT * FROM (SELECT * FROM stops WHERE driverID = '$driverID' AND dispatcherId = '$dispatcher' ORDER BY id DESC LIMIT ".(int)$total.", ".$count.") sub ORDER BY id ASC";
+
+  $sql = "SELECT * FROM (SELECT * FROM stops WHERE driverId='$driverID' AND dispatcherId='$dispatcher' ORDER BY STR_TO_DATE(dateCreated, '%d/%m/%Y') DESC LIMIT ".(int)$total.",".(int)$count.") sub ORDER BY STR_TO_DATE(dateCreated, '%d/%m/%Y') ASC ";
+
   $result = $conn->query($sql);
   if($result->num_rows > 0){
     while($row = $result->fetch_assoc()){

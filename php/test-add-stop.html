@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Test Add Stop</title>
+  </head>
+  <body>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script>
+      jQuery(document).ready(function(){
+        $.ajax({
+          url: 'http://estyrosenberg.com/guma/backend/add-stop.php',
+          data: { driverID: 11, dispatcher: 12, address: '134 Middleton St. Brooklyn NY', action: 'DO', size: '10', date: '10/10/2010', time: '10:10:10', comment: ''},
+          method: 'POST'
+        }).done(function(msg){
+          console.log(msg);
+        })
+      })
+    </script>
+  </body>
+</html>

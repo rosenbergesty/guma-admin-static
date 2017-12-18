@@ -79,54 +79,73 @@
     $comment = $parsed['comment'];
   }
 
+  $parking = '';
+  if( isset($_POST['parking']) ){
+    $parking = $_POST['parking']; 
+  } else {
+    $requestBody = file_get_contents('php://input');
+    $parsed = json_decode($requestBody, true);
+    $parking = $parsed['parking'];
+  }
+
   $response = [];
   
-  // Insert dispatcher
-  $sql = "INSERT INTO stops (driverId, dispatcherId, address, type, size, comment, dateCreated, timeCreated, status) VALUES ('$driverID', '$dispatcher', '$address', '$type', '$size', '$comment', '$date', '$time', 'pending')";
-  if($conn->query($sql) === TRUE){
-    array_push($response, ['code'=>'200', 'response'=>'Successfully added']);
-  } else {
-    array_push($response, ['code'=>'500', 'response'=>"Error: " . $sql . "<br>" . $conn->error]);
+  // Insert stop
+  if(strlen($address) > 0){
+    $sql = "INSERT INTO stops (driverId, dispatcherId, address, type, size, comment, parking, dateCreated, timeCreated, status) VALUES ('$driverID', '$dispatcher', '$address', '$type', '$size', '$comment', '$parking', '$date', '$time', 'pending')";
+    if($conn->query($sql) === TRUE){
+      array_push($response, ['code'=>'200', 'response'=>'Successfully added']);
+      sendNotification($conn, $driverID, $type, $address);
+    } else {
+      array_push($response, ['code'=>'500', 'response'=>"Error: " . $sql . "<br>" . $conn->error]);
+    } 
   }
 
-  // Notify
-  $sql = "SELECT * FROM deviceIds";
-  $result = $conn->query($sql);
-  if($result->num_rows > 0){
-    while($row = $result->fetch_assoc()){
-      sendFCM('New stop added.', $row['deviceId']);
-    }
-  } else {
-    // no notifications...
+  // Send Notification
+  function sendNotification($conn, $driver, $stopType, $stop){
+    $sql = "SELECT deviceId FROM deviceIds WHERE driverId = 11";
+    $result = $conn->query($sql);
+    if($result->num_rows > 0){
+      while($row = $result->fetch_assoc()){
+        $content = array( 
+          "en" => $stopType.' - '.$stop
+        );
+        $headings = array(
+          "en" => 'Stop Added'
+        );
+
+        $fields = array(
+          'app_id' => "9f03606d-9cc7-46a9-8083-f25629aba6be",
+          'include_player_ids' => array($row['deviceId']),
+          'large_icon' =>"ic_launcher_round.png",
+          'contents' => $content,
+          'headings' => $headings,
+          'ios_badgeType' => 'Increase',
+          'ios_badgeCount' => '1'
+        );
+
+        $fields = json_encode($fields);
+
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, "https://onesignal.com/api/v1/notifications");
+        curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: application/json; charset=utf-8', 'Authorization: Basic YzNkMzdlYTktZDI4Yy00YmY0LWJhM2EtMDAyNWIzMGEwMTFl'));
+          curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
+          curl_setopt($ch, CURLOPT_HEADER, FALSE);
+          curl_setopt($ch, CURLOPT_POST, TRUE);
+          curl_setopt($ch, CURLOPT_POSTFIELDS, $fields);
+          curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);    
+
+          $msg = curl_exec($ch);
+          curl_close($ch);
+
+          // $return["allresponses"] = $msg;
+          // $message = json_encode( $return);
+
+          // $response = 'sent to '.$row['deviceId'].'stop: '.$stop;
+      }
+    } 
   }
 
-  function sendFCM($mess, $id) {
-    $url = 'https://fcm.googleapis.com/fcm/send';
-    $fields = array (
-            'to' => $id,
-            'notification' => array (
-                    "body" => $mess,
-                    "title" => "Guma",
-                    "icon" => "myicon"
-            )
-    );
-    $fields = json_encode ( $fields );
-    $headers = array (
-            'Authorization: key=' . "AAAAjbaC910:APA91bEa3KayzaaUr3k1eMMfeiaRpCmbGqe73wFPvkuUf6YgLaDTOAaU9a6pDjEFDcm__PVD8sPp2ZBvPdfhHTMAyfb21_bM3bENZkzXWzJqWgPNwvcWqGBGCwPXXxlDMNx6zcuvCJ7u",
-            'Content-Type: application/json');
-
-    $ch = curl_init ();
-    curl_setopt ( $ch, CURLOPT_URL, $url );
-    curl_setopt ( $ch, CURLOPT_POST, true );
-    curl_setopt ( $ch, CURLOPT_HTTPHEADER, $headers );
-    curl_setopt ( $ch, CURLOPT_RETURNTRANSFER, true );
-    curl_setopt ( $ch, CURLOPT_POSTFIELDS, $fields );
-
-    $result = curl_exec ( $ch );
-    curl_close ( $ch );
-  }
-  
   echo json_encode($response);
-
   $conn->close();
 ?>

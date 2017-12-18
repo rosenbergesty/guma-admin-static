@@ -8,7 +8,7 @@
   // Get data
   $response = [];
 
-  // Insert dispatcher
+  // Fetch dispatchers
   $sql = "SELECT * FROM dispatchers";
   $result = $conn->query($sql);
   if($result->num_rows > 0){
